@@ -12,7 +12,9 @@ public class ListUtils {
             dest.addAll(src);
             return;
         }
+        boolean good;
         do {
+            good = true;
             // remove all from dest not in source
             ListIterator<T> destIt = dest.listIterator();
             ListIterator<? extends T> srcIt = src.listIterator();
@@ -24,14 +26,16 @@ public class ListUtils {
                 if (destItem.equals(srcItem))
                     continue; // nothing to change
 
+                good = false;
+
                 if (!dest.contains(srcItem)) {
                     if (!src.contains(destItem))
                         destIt.remove();
                     destIt.add(srcItem);
                     continue;
                 }
+                destIt.remove();
                 if (!destSeenSet.contains(srcItem)) {
-                    destIt.remove();
                     while (destIt.hasNext() && !destIt.next().equals(srcItem))
                         destIt.remove();
                 }
@@ -43,9 +47,9 @@ public class ListUtils {
                 if (!src.contains(d.next()))
                     d.remove();
             }
-            // Timber.d("%d %d", src.size(), dest.size());
-            // Timber.d("%s %s", src.toString(), dest.toString());
-        } while (!dest.containsAll(src) || dest.size() != src.size());
+            System.out.printf("%d %d", src.size(), dest.size());
+            System.out.printf("%s %s", src.toString(), dest.toString());
+        } while (!dest.containsAll(src) || dest.size() != src.size() || !good);
     }
 
 }

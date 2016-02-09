@@ -17,12 +17,12 @@ import static junit.framework.Assert.assertEquals;
 public class ListUtilsTest {
 
     @Rule
-    public Timeout globalTimeout = Timeout.seconds(5); // 5 seconds max per method tested
+    public Timeout globalTimeout = Timeout.millis(20); // max per method tested
 
     @Test
     public void testMerge() {
-        List<String> src = Lists.newArrayList("s1", "s2", "s3", "s4", "s5");
-        List<String> dest = Lists.newArrayList("s2", "s1", "s2", "s4", "s6");
+        List<String> src = Lists.newArrayList("s1", "s2", "s3", "s4", "s5", "s8");
+        List<String> dest = Lists.newArrayList("s2", "s1", "s2", "s4", "s6", "s7", "s9");
 
         ListUtils.merge(dest, src);
 
