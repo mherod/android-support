@@ -8,4 +8,4 @@ android:
     - extra-android-support
   licenses:
     - android-sdk-license-.+
-script: ./gradlew build check connectedCheck
+script: ./gradlew build check
