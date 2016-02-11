@@ -25,11 +25,20 @@ public class ListUtilsTest {
         List<String> dest = Lists.newArrayList("s2", "s1", "s2", "s4", "s6", "s7", "s9");
 
         ListUtils.merge(dest, src);
+        verifyLists(src, dest);
 
-        assertEquals(src.size(), dest.size());
-        ListIterator<String> srcIt = src.listIterator();
-        ListIterator<String> destIt = dest.listIterator();
-        while (srcIt.hasNext() && destIt.hasNext())
-            assertEquals(srcIt.next(), destIt.next());
+        src = Lists.newArrayList("s1", "s2", "s3", "s4", "s5", "s8", "s10", "s7", "s6");
+        dest = Lists.newArrayList("s2", "s1", "s2", "s4", "s6", "s7", "s9");
+
+        ListUtils.merge(dest, src);
+        verifyLists(src, dest);
+    }
+
+    private void verifyLists(List<?> aList, List<?> bList) {
+        assertEquals(aList.size(), bList.size());
+        ListIterator<?> aIterator = aList.listIterator();
+        ListIterator<?> bIterator = bList.listIterator();
+        while (aIterator.hasNext() && bIterator.hasNext())
+            assertEquals(aIterator.next(), bIterator.next());
     }
 }

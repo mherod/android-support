@@ -19,27 +19,30 @@ public class ListUtils {
             ListIterator<T> destIt = dest.listIterator();
             ListIterator<? extends T> srcIt = src.listIterator();
             Set<T> destSeenSet = new HashSet<>();
+            T destItem = null;
             while (srcIt.hasNext() && destIt.hasNext()) {
+                if (destItem != null)
+                    destSeenSet.add(destItem);
+
                 T srcItem = srcIt.next();
-                T destItem = destIt.next();
+                destItem = destIt.next();
 
                 if (destItem.equals(srcItem))
                     continue; // nothing to change
 
                 good = false;
 
-                if (!dest.contains(srcItem)) {
-                    if (!src.contains(destItem))
-                        destIt.remove();
-                    destIt.add(srcItem);
+                if (!dest.contains(srcItem)) { // the destination doesn't have this item yet
+                    if (!src.contains(destItem)) // the current item isn't in the source
+                        destIt.remove(); // so we can easily get rid
+                    destIt.add(srcItem); // and add the right item
                     continue;
                 }
-                destIt.remove();
-                if (!destSeenSet.contains(srcItem)) {
+                if (!destSeenSet.contains(srcItem)) { // the source item is later in the iteration
+                    destIt.remove();
                     while (destIt.hasNext() && !destIt.next().equals(srcItem))
                         destIt.remove();
                 }
-                destSeenSet.add(destItem);
             }
             while (srcIt.hasNext())
                 destIt.add(srcIt.next());
@@ -47,8 +50,8 @@ public class ListUtils {
                 if (!src.contains(d.next()))
                     d.remove();
             }
-            System.out.printf("%d %d", src.size(), dest.size());
-            System.out.printf("%s %s", src.toString(), dest.toString());
+            // System.out.printf("%d %d ", src.size(), dest.size());
+            // System.out.printf("%s %s \n", src.toString(), dest.toString());
         } while (!dest.containsAll(src) || dest.size() != src.size() || !good);
     }
 
